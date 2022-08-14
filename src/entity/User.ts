@@ -1,5 +1,5 @@
 import {
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   Column,
   Entity,
   BaseEntity,
@@ -11,8 +11,10 @@ import { Length, IsEmail } from 'class-validator'
 
 @Entity('user')
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number
+  @PrimaryColumn({
+    default: Date.now().toString(),
+  })
+  id: string
 
   @Column({
     unique: true,
