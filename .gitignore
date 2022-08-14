@@ -1,6 +1,9 @@
-/node_modules
-/.vscode
-/.env
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
 .env
 yarn-error.log
 yarn.lock
