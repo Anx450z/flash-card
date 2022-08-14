@@ -19,6 +19,7 @@
 - passport-google-oauth20
 - passport-twitter
 - passport-github
+- axios
 
 ## dev dependencies
 - nodemon
@@ -26,3 +27,4 @@
 - ts-node
 - typescript
 - tsc
+- @types/* 

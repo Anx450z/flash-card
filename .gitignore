@@ -1,4 +1,6 @@
 /node_modules
-/.vs-code
+/.vscode
 /.env
 .env
+yarn-error.log
+yarn.lock

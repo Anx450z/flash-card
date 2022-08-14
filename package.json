@@ -1,0 +1,50 @@
+{
+  "name": "flash-card-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Anx450z/flash-card.git",
+  "author": "anx450z <anx450z@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "start": "node build/dist/index.js",
+    "build": "tsc -p .",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "heroku-prebuild": "yarn install"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.12",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.5",
+    "@types/nodemailer": "^6.4.5",
+    "@types/passport": "^1.0.10",
+    "@types/passport-github": "^1.1.7",
+    "@types/passport-google-oauth20": "^2.0.11",
+    "@types/passport-twitter": "^1.0.37",
+    "@types/pg": "^8.6.5",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "class-validator": "^0.13.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "nodemailer": "^6.7.8",
+    "passport": "^0.6.0",
+    "passport-github": "^1.1.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-twitter": "^1.0.4",
+    "pg": "^8.7.3",
+    "typeorm": "^0.3.7"
+  }
+}
