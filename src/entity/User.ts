@@ -1,4 +1,12 @@
-import { PrimaryGeneratedColumn, Column, Entity, BaseEntity, CreateDateColumn, UpdateDateColumn, Index } from 'typeorm'
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  BaseEntity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Index,
+} from 'typeorm'
 import { Length, IsEmail } from 'class-validator'
 
 @Entity('user')
@@ -22,7 +30,7 @@ export class User extends BaseEntity {
 
   @Index()
   @Column({
-    unique: true
+    unique: true,
   })
   @IsEmail()
   email: string
@@ -33,14 +41,13 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedOn: Date
 
-
   @Column({
-    default: false
+    default: false,
   })
   isAdmin: boolean
 
   @Column({
-    nullable: true
+    nullable: true,
   })
   photo: string
 }

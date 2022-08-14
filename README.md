@@ -28,3 +28,13 @@
 - typescript
 - tsc
 - @types/* 
+
+# TypeORM
+
+## Generate migration example 
+- yarn typeorm migration:generate ./src/migration/add-user --dataSource ./src/data-source.ts
+## Run the migration
+- yarn typeorm migration:run --dataSource ./src/data-source.ts
+
+## revert the migration
+- yarn typeorm migration:revert --dataSource ./src/data-source.ts
