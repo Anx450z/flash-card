@@ -5,15 +5,16 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import session from 'express-session'
 import passport from 'passport'
+import {faker} from '@faker-js/faker'
 
 // AppDataSource.initialize()
 //   .then(async () => {
 //     console.log('Inserting a new user into the database...')
 //     const user = new User()
-//     user.firstName = 'Timber'
-//     user.lastName = 'Saw'
-//     user.email = 'test@example.com'
-//     user.userName = 'TimberSaw'
+//     user.firstName = faker.name.firstName()
+//     user.lastName = faker.name.lastName()
+//     user.email = faker.internet.email()
+//     user.userName = faker.name.middleName()
 //     await AppDataSource.manager.save(user)
 //     console.log('Saved a new user with id: ' + user.id)
 
@@ -29,9 +30,9 @@ dotenv.config()
 
 const app = express()
 
-AppDataSource.initialize().then(async => {
+AppDataSource.initialize().then(async () => {
   console.log('🟢 Connected successfully to Postgresql 🐘')
-})
+}).catch(error => console.log(error))
 
 const GoogleStrategy = require('passport-google-oauth20')
 
@@ -68,7 +69,7 @@ passport.serializeUser((user: any, done) => {
 
 passport.deserializeUser(async (id: string, done) => {
   //* Whatever we return goes to the client and binds to the req.user property
-  const user = await User.findOneBy({ id: id })
+  const user = await User.findOneBy({ googleId: id })
 
   return done(null, user)
 })

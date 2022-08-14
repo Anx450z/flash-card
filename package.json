@@ -18,6 +18,7 @@
     "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.4.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",

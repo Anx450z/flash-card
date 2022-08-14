@@ -1,5 +1,5 @@
 import {
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   Column,
   Entity,
   BaseEntity,
@@ -11,10 +11,8 @@ import { Length, IsEmail } from 'class-validator'
 
 @Entity('user')
 export class User extends BaseEntity {
-  @PrimaryColumn({
-    default: Date.now().toString(),
-  })
-  id: string
+  @PrimaryGeneratedColumn()
+  id: number
 
   @Column({
     unique: true,
@@ -52,4 +50,13 @@ export class User extends BaseEntity {
     nullable: true,
   })
   photo: string
+
+  @Column({ nullable: true})
+  googleId: string
+
+  @Column({ nullable: true})
+  twitterId: string
+
+  @Column({ nullable: true})
+  githubId: string
 }
