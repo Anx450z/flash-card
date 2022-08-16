@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "start": "ts-node src/index.ts",
+    "start": "node build/dist/index.js",
     "build": "tsc -p .",
     "dev": "nodemon --exec ts-node src/index.ts",
     "heroku-prebuild": "yarn install",

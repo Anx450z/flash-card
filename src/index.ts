@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import session from 'express-session'
 import passport from 'passport'
-import {faker} from '@faker-js/faker'
+// import {faker} from '@faker-js/faker'
 
 // AppDataSource.initialize()
 //   .then(async () => {
@@ -45,18 +45,18 @@ app.use(
   })
 )
 
-app.set('trust proxy', 1)
+// app.set('trust proxy', 1)
 
 app.use(
   session({
-    secret: 'ankur',
+    secret: 'secret',
     resave: true,
     saveUninitialized: true,
-    cookie: {
-      sameSite: 'none',
-      secure: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
-    },
+    // cookie: {
+    //   sameSite: 'none',
+    //   secure: true,
+    //   maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
+    // },
   })
 )
 
@@ -64,12 +64,12 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 passport.serializeUser((user: any, done) => {
-  return done(null, user.id)
+  return done(null, user)
 })
 
-passport.deserializeUser(async (id: string, done) => {
+passport.deserializeUser( (user :any, done) => {
   //* Whatever we return goes to the client and binds to the req.user property
-  const user = await User.findOneBy({ googleId: id })
+  // const user = await User.findOneBy({ googleId: id })
 
   return done(null, user)
 })
@@ -81,27 +81,29 @@ passport.use(
       clientID: `${process.env.GOOGLE_CID}`,
       clientSecret: `${process.env.GOOGLE_SECRET}`,
       callbackURL: '/auth/google/callback',
-      scope: ['profile'],
+      scope: ['profile', 'email'],
       state: true,
     },
-    async function (_: any, __: any, profile: any, cb: any) {
+     function (_: any, __: any, userinfo: any, cb: any) {
       // using _ for parameter which are not required
       // Insert user into DB
-      const user = await User.findOneBy({ id: profile.id })
-      if (!user) {
-        const newUser = new User()
-        newUser.id = profile.id
-        newUser.userName = profile.name.userName
-        newUser.firstName = 'Not Available' || profile.name.givenName
-        newUser.lastName = 'Not Available' || profile.name.familyName
-        newUser.email = 'Not Available' || profile.email
+      console.log("Userinfo : ",userinfo)
+      // const user =  User.findOneBy({ id: profile.id })
+      // if (!user) {
+      //   const newUser = new User()
+      //   newUser.id = profile.id
+      //   newUser.userName = profile.name.userName
+      //   newUser.firstName = 'Not Available' || profile.name.givenName
+      //   newUser.lastName = 'Not Available' || profile.name.familyName
+      //   newUser.email = 'Not Available' || profile.email
 
-        await AppDataSource.manager.save(newUser)
-        console.log('Saved a new user with id: ' + newUser.id)
+      //    AppDataSource.manager.save(newUser)
+      //   console.log('Saved a new user with id: ' + newUser.id)
 
-        cb(null, newUser)
-      }
-      cb(null, user)
+      //   cb(null, newUser)
+      // }
+      // cb(null, user)
+      cb(null, userinfo)
     }
   )
 )
@@ -111,12 +113,13 @@ app.get('/auth/google', passport.authenticate('google'))
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/',
+    failureRedirect: '/failure',
     session: true,
     failureMessage: true,
+    // successRedirect: '/success',
   }),
   function (req, res) {
-    res.redirect('/')
+    res.redirect('http://localhost:3000');
   }
 )
 
@@ -129,15 +132,15 @@ app.get('/getuser', (req, res) => {
   res.send(req.user)
 })
 
-app.get('/auth/logout', function (req, res, next) {
-  req.logout(function (err) {
-    if (err) {
-      return next(err)
-    }
-    res.send('success')
-  })
-})
+// app.get('/auth/logout', function (req, res, next) {
+//   req.logout(function (err) {
+//     if (err) {
+//       return next(err)
+//     }
+//     res.send('success')
+//   })
+// })
 
-app.listen(process.env.PORT || 4000, () => {
+app.listen(4000, () => {
   console.log('Server Started')
 })

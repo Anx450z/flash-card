@@ -6,4 +6,3 @@ tmp/
 temp/
 .env
 yarn-error.log
-yarn.lock
