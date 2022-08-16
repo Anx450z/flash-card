@@ -30,9 +30,11 @@ dotenv.config()
 
 const app = express()
 
-AppDataSource.initialize().then(async () => {
-  console.log('🟢 Connected successfully to Postgresql 🐘')
-}).catch(error => console.log(error))
+AppDataSource.initialize()
+  .then(async () => {
+    console.log('🟢 Connected successfully to Postgresql 🐘')
+  })
+  .catch(error => console.log(error))
 
 const GoogleStrategy = require('passport-google-oauth20')
 
@@ -67,7 +69,7 @@ passport.serializeUser((user: any, done) => {
   return done(null, user)
 })
 
-passport.deserializeUser( (user :any, done) => {
+passport.deserializeUser((user: any, done) => {
   //* Whatever we return goes to the client and binds to the req.user property
   // const user = await User.findOneBy({ googleId: id })
 
@@ -81,29 +83,35 @@ passport.use(
       clientID: `${process.env.GOOGLE_CID}`,
       clientSecret: `${process.env.GOOGLE_SECRET}`,
       callbackURL: '/auth/google/callback',
-      scope: ['profile', 'email'],
+      scope: ['profile', 'email', ''],
       state: true,
     },
-     function (_: any, __: any, userinfo: any, cb: any) {
+    async function (_: any, __: any, userinfo: any, cb: any) {
       // using _ for parameter which are not required
       // Insert user into DB
-      console.log("Userinfo : ",userinfo)
-      // const user =  User.findOneBy({ id: profile.id })
-      // if (!user) {
-      //   const newUser = new User()
-      //   newUser.id = profile.id
-      //   newUser.userName = profile.name.userName
-      //   newUser.firstName = 'Not Available' || profile.name.givenName
-      //   newUser.lastName = 'Not Available' || profile.name.familyName
-      //   newUser.email = 'Not Available' || profile.email
+      // console.log(userinfo)
+      const user = await User.findOneBy({ googleId: userinfo.id })
+      // console.log('user ===', user)
+      try {
+        if (!user) {
+          // console.log("Creating new user")
+          const newUser = new User()
+          newUser.googleId = userinfo.id
+          newUser.userName = userinfo.emails[0].value
+          newUser.firstName = userinfo.name.givenName
+          newUser.lastName = userinfo.name.familyName
+          newUser.email = userinfo.emails[0].value
+          newUser.photo = userinfo.photos[0].value
 
-      //    AppDataSource.manager.save(newUser)
-      //   console.log('Saved a new user with id: ' + newUser.id)
-
-      //   cb(null, newUser)
-      // }
-      // cb(null, user)
-      cb(null, userinfo)
+          await AppDataSource.manager.save(newUser)
+          // console.log('Saved a new user with id: ' + newUser.id)
+          cb(null, newUser)
+        } else {
+          cb(null, user)
+        }
+      } catch (error) {
+        cb(error, user)
+      }
     }
   )
 )
@@ -119,7 +127,7 @@ app.get(
     // successRedirect: '/success',
   }),
   function (req, res) {
-    res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:3000')
   }
 )
 

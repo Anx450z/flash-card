@@ -15,7 +15,7 @@ export class User extends BaseEntity {
   id: number
 
   @Column({
-    unique: true,
+    nullable: true,
   })
   @Length(3, 15)
   userName: string
@@ -51,12 +51,12 @@ export class User extends BaseEntity {
   })
   photo: string
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   googleId: string
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   twitterId: string
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   githubId: string
 }
