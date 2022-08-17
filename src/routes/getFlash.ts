@@ -1,7 +1,7 @@
 import express, { response } from 'express'
 import { AppDataSource } from '../data-source'
 import { Flash } from '../entity/Flash'
-import { User } from '../entity/User'
+import { decrypt } from '../helper/encryption'
 
 const router = express.Router()
 
@@ -16,8 +16,8 @@ router.get('/api/user/:userId/flashes', async (req, res) => {
 
   const decryptedFlashes = flashes.map(flash => ({
     id: flash.id,
-    question: flash.question,
-    answer: flash.answer,
+    question: decrypt(JSON.parse(flash.question)),
+    answer: decrypt(JSON.parse(flash.answer)),
     tag: flash.tag,
     flashColor: flash.flashColor,
     createdAt: flash.createdAt,
@@ -25,8 +25,7 @@ router.get('/api/user/:userId/flashes', async (req, res) => {
     user_id: flash.user_id,
   }))
 
-  console.log(decryptedFlashes)
-  res.json(flashes)
+  res.json(decryptedFlashes)
 })
 
 export { router as getFlashesRouter }

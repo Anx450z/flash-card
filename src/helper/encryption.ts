@@ -7,10 +7,10 @@ const algorithm = 'aes-256-ctr'
 // secret key
 const SecurityKey = `${process.env.SECRET_KEY}`
 
+let key = crypto.createHash('sha256').update(SecurityKey).digest('base64').slice(0, 32)
 export const encrypt = (text: string) => {
   // generate 16 bytes of random data
   const initVector = crypto.randomBytes(16)
-  let key = crypto.createHash('sha256').update(SecurityKey).digest('base64').slice(0, 32)
   // the cipher function
   // encrypt the message, input encoding, output encoding
   const cipher = crypto.createCipheriv(algorithm, key, initVector)
@@ -21,10 +21,10 @@ export const encrypt = (text: string) => {
   }
 }
 
-const decrypt = (hash: { initVector: string; content: string }) => {
+export const decrypt = (hash: any) => {
   const decipher = crypto.createDecipheriv(
     algorithm,
-    SecurityKey,
+    key,
     Buffer.from(hash.initVector, 'hex')
   )
 

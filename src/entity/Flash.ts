@@ -23,11 +23,17 @@ export class Flash extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ type: 'varchar', length: 128 })
-  question: string
+  @Column({ type: 'simple-json' })
+  question: {
+    initVector: string
+    content: string
+  }
 
-  @Column({ type: 'varchar', length: 256 })
-  answer: string
+  @Column({ type: 'simple-json' })
+  answer: {
+    initVector: string
+    content: string
+  }
 
   @Column({ default: 'default' })
   tag: string
