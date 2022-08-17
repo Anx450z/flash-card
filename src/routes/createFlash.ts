@@ -2,12 +2,14 @@ import express from 'express'
 import { AppDataSource } from '../data-source'
 import { Flash } from '../entity/Flash'
 import { User } from '../entity/User'
+import { encrypt } from '../helper/encryption'
 
 const router = express.Router()
 
+
+
 router.post('/api/user/:userID/newflash', async (req, res) => {
   const { userID } = req.params
-
   const { question, answer, tag, flashColor } = req.body
 
   const user = await User.findOneBy({ id: parseInt(userID) })
@@ -19,8 +21,8 @@ router.post('/api/user/:userID/newflash', async (req, res) => {
   }
   const flash = Flash.create({
     user,
-    question,
-    answer,
+    question: encrypt(question).content,
+    answer: encrypt(answer).content,
     tag,
     flashColor,
   })

@@ -13,8 +13,19 @@ router.get('/api/user/:userId/flashes', async (req, res) => {
     .from(Flash, 'flash')
     .where('user_id = :userId', { userId })
     .getRawMany()
-    
-  console.log(flashes)
+
+  const decryptedFlashes = flashes.map(flash => ({
+    id: flash.id,
+    question: flash.question,
+    answer: flash.answer,
+    tag: flash.tag,
+    flashColor: flash.flashColor,
+    createdAt: flash.createdAt,
+    UpdatedAt: flash.updatedAt,
+    user_id: flash.user_id,
+  }))
+
+  console.log(decryptedFlashes)
   res.json(flashes)
 })
 
