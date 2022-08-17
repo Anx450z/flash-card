@@ -12,7 +12,10 @@ router.get('/api/user/:userId/flashes', async (req, res) => {
     .select('*')
     .from(Flash, 'flash')
     .where('user_id = :userId', { userId })
+    .orderBy('flash.createdAt', 'DESC')
+    .take(3)
     .getRawMany()
+    
 
   const decryptedFlashes = flashes.map(flash => ({
     id: flash.id,

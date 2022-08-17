@@ -8,6 +8,7 @@ import passport from 'passport'
 import { createFlashRouter } from './routes/createFlash'
 import { deleteFlashRouter } from './routes/deleteFlash'
 import { getFlashesRouter } from './routes/getFlash'
+import { googleRouter } from './userAuth/googleAuth'
 // import {faker} from '@faker-js/faker'
 
 // AppDataSource.initialize()
@@ -79,61 +80,6 @@ passport.deserializeUser((user: any, done) => {
   return done(null, user)
 })
 
-//* Google Auth
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: `${process.env.GOOGLE_CID}`,
-      clientSecret: `${process.env.GOOGLE_SECRET}`,
-      callbackURL: '/auth/google/callback',
-      scope: ['profile', 'email', ''],
-      state: true,
-    },
-    async function (_: any, __: any, userinfo: any, cb: any) {
-      // using _ for parameter which are not required
-      // Insert user into DB
-      // console.log(userinfo)
-      const user = await User.findOneBy({ googleId: userinfo.id })
-      // console.log('user ===', user)
-      try {
-        if (!user) {
-          // console.log("Creating new user")
-          const newUser = new User()
-          newUser.googleId = userinfo.id
-          newUser.userName = userinfo.emails[0].value
-          newUser.firstName = userinfo.name.givenName
-          newUser.lastName = userinfo.name.familyName
-          newUser.email = userinfo.emails[0].value
-          newUser.photo = userinfo.photos[0].value
-
-          await AppDataSource.manager.save(newUser)
-          // console.log('Saved a new user with id: ' + newUser.id)
-          cb(null, newUser)
-        } else {
-          cb(null, user)
-        }
-      } catch (error) {
-        cb(error, user)
-      }
-    }
-  )
-)
-
-//* google routes
-app.get('/auth/google', passport.authenticate('google'))
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/failure',
-    session: true,
-    failureMessage: true,
-    // successRedirect: '/success',
-  }),
-  function (req, res) {
-    res.redirect('http://localhost:3000')
-  }
-)
-
 // Routes
 app.get('/', (req, res) => {
   res.send('Hello World!!')
@@ -155,6 +101,7 @@ app.get('/getuser', (req, res) => {
 app.use(createFlashRouter)
 app.use(deleteFlashRouter)
 app.use(getFlashesRouter)
+app.use(googleRouter)
 
 app.listen(4000, () => {
   console.log('Server Started')
