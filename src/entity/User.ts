@@ -62,6 +62,6 @@ export class User extends BaseEntity {
   @Column({ nullable: true, unique: true })
   githubId: string
 
-  @OneToMany(() => Flash, flash => flash.client)
+  @OneToMany(() => Flash, flash => flash.user)
   flashes: Flash[]
 }

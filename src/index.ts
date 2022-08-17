@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import session from 'express-session'
 import passport from 'passport'
+import { createFlashRouter } from './routes/createFlash'
 // import {faker} from '@faker-js/faker'
 
 // AppDataSource.initialize()
@@ -148,6 +149,8 @@ app.get('/getuser', (req, res) => {
 //     res.send('success')
 //   })
 // })
+
+app.use(createFlashRouter)
 
 app.listen(4000, () => {
   console.log('Server Started')

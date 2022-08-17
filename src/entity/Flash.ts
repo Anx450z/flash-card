@@ -45,5 +45,5 @@ export class Flash extends BaseEntity {
   @JoinColumn({
     name: 'user_id',
   })
-  client: User
+  user: User
 }
