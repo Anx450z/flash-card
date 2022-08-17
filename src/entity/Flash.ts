@@ -41,7 +41,9 @@ export class Flash extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date
 
-  @ManyToOne(() => User, user => user.flashes)
+  @ManyToOne(() => User, user => user.flashes, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({
     name: 'user_id',
   })

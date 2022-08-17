@@ -7,6 +7,7 @@ import session from 'express-session'
 import passport from 'passport'
 import { createFlashRouter } from './routes/createFlash'
 import { deleteFlashRouter } from './routes/deleteFlash'
+import { getFlashesRouter } from './routes/getFlash'
 // import {faker} from '@faker-js/faker'
 
 // AppDataSource.initialize()
@@ -153,6 +154,7 @@ app.get('/getuser', (req, res) => {
 
 app.use(createFlashRouter)
 app.use(deleteFlashRouter)
+app.use(getFlashesRouter)
 
 app.listen(4000, () => {
   console.log('Server Started')
