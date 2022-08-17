@@ -5,7 +5,7 @@ import { User } from '../entity/User'
 
 const router = express.Router()
 
-router.post('/api/user/:userID/flash', async (req, res) => {
+router.post('/api/user/:userID/newflash', async (req, res) => {
   const { userID } = req.params
 
   const { question, answer, tag, flashColor } = req.body
