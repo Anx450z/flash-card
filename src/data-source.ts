@@ -2,6 +2,7 @@ import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 import { User } from './entity/User'
 import dotenv from 'dotenv'
+import { Flash } from './entity/Flash'
 
 dotenv.config()
 
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
   database: `${process.env.DATABASE}`,
   synchronize: false,
   logging: true,
-  entities: [User],
+  entities: [User, Flash],
   migrations: ['./src/migration/**/*.ts'],
   // subscribers: [],
 })

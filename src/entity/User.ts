@@ -6,8 +6,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  OneToMany,
 } from 'typeorm'
 import { Length, IsEmail } from 'class-validator'
+import { Flash } from './Flash'
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -51,12 +53,15 @@ export class User extends BaseEntity {
   })
   photo: string
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, unique: true })
   googleId: string
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, unique: true })
   twitterId: string
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, unique: true })
   githubId: string
+
+  @OneToMany(() => Flash, flash => flash.client)
+  flashes: Flash[]
 }
