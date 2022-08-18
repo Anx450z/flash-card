@@ -22,11 +22,7 @@ export const encrypt = (text: string) => {
 }
 
 export const decrypt = (hash: any) => {
-  const decipher = crypto.createDecipheriv(
-    algorithm,
-    key,
-    Buffer.from(hash.initVector, 'hex')
-  )
+  const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(hash.initVector, 'hex'))
 
   const decrpyted = Buffer.concat([
     decipher.update(Buffer.from(hash.content, 'hex')),

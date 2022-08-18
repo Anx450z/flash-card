@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.post('/api/user/:userID/newflash', async (req, res) => {
   const { userID } = req.params
-  const { question, answer, tag, flashColor } = req.body
+  let { question, answer, tag, flashColor } = req.body
 
   const user = await User.findOneBy({ id: parseInt(userID) })
   if (!user) {
@@ -19,6 +19,10 @@ router.post('/api/user/:userID/newflash', async (req, res) => {
   }
 
   if (encrypt(question).content.length < 256 && encrypt(answer).content.length < 512) {
+    if (tag.length === 0) {
+      tag = 'default'
+    }
+
     const flash = Flash.create({
       user,
       question: encrypt(question),

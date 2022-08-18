@@ -35,7 +35,7 @@ export class Flash extends BaseEntity {
     content: string
   }
 
-  @Column({ default: 'default' })
+  @Column({ default: 'default', length: 25 })
   tag: string
 
   @Column({ type: 'enum', enum: ColorTypes, default: ColorTypes.WHITE })

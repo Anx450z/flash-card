@@ -89,14 +89,14 @@ app.get('/getuser', (req, res) => {
   res.send(req.user)
 })
 
-// app.get('/auth/logout', function (req, res, next) {
-//   req.logout(function (err) {
-//     if (err) {
-//       return next(err)
-//     }
-//     res.send('success')
-//   })
-// })
+app.get('/auth/logout', function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err)
+    }
+    res.send('success')
+  })
+})
 
 app.use(createFlashRouter)
 app.use(deleteFlashRouter)

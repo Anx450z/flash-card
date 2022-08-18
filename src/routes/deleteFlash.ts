@@ -19,5 +19,4 @@ router.delete('/api/flash/:flashID/delete', async (req, res) => {
   }
 })
 
-
-export { router as deleteFlashRouter}
+export { router as deleteFlashRouter }
