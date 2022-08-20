@@ -25,6 +25,7 @@ router.get('/api/user/:userId/flashes', async (req, res) => {
     createdAt: flash.createdAt,
     UpdatedAt: flash.updatedAt,
     user_id: flash.user_id,
+    favorite: flash.favorite,
   }))
 
   res.json(decryptedFlashes)
