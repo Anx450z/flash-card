@@ -38,6 +38,9 @@ export class Flash extends BaseEntity {
   @Column({ default: 'default', length: 25 })
   tag: string
 
+  @Column({ default: false})
+  favorite: boolean
+
   @Column({ type: 'enum', enum: ColorTypes, default: ColorTypes.WHITE })
   flashColor: string
 
@@ -54,4 +57,5 @@ export class Flash extends BaseEntity {
     name: 'user_id',
   })
   user: User
+  
 }
