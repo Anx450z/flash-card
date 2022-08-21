@@ -5,17 +5,18 @@ import { Flash } from '../entity/Flash'
 const router = express.Router()
 
 router.patch('/api/flash/favorite', async (req, res) => {
-  const {flashId} = req.body
+  const {flashId, favorite} = req.body
+  console.log("favorite",favorite)
   try {
     await AppDataSource.createQueryBuilder()
       .update(Flash)
-      .set({ favorite: true })
+      .set({ favorite })
       .where('id = :id', { id: flashId })
       .execute()
 
     res.send({
       status: 'success',
-      msg: 'added to favorites',
+      msg: 'set favorite to ' + favorite,
     })
   } catch (error) {
     res.send({
