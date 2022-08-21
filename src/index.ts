@@ -9,6 +9,7 @@ import { createFlashRouter } from './routes/createFlash'
 import { deleteFlashRouter } from './routes/deleteFlash'
 import { getFlashesRouter } from './routes/getFlash'
 import { googleRouter } from './userAuth/googleAuth'
+import { addToFavoriteRouter } from './routes/favoriteFlash'
 // import {faker} from '@faker-js/faker'
 
 // AppDataSource.initialize()
@@ -102,6 +103,7 @@ app.use(createFlashRouter)
 app.use(deleteFlashRouter)
 app.use(getFlashesRouter)
 app.use(googleRouter)
+app.use(addToFavoriteRouter)
 
 app.listen(4000, () => {
   console.log('Server Started')
