@@ -12,35 +12,42 @@ router.post('/api/user/:userID/newflash', async (req, res) => {
 
   const user = await User.findOneBy({ id: parseInt(userID) })
   if (!user) {
-    return res.json({
+    res.send({
       msg: 'user not found',
       status: 'failed',
     })
-  }
-
-  if (encrypt(question).content.length < 256 && encrypt(answer).content.length < 512) {
-    if (tag.length === 0) {
-      tag = 'default'
-    }
-
-    const flash = Flash.create({
-      user,
-      question: encrypt(question),
-      answer: encrypt(answer),
-      tag,
-      flashColor,
-    })
-    try {
-      await AppDataSource.manager.save(flash)
-      return res.json({ msg: 'flash saved', status: 'success' })
-    } catch (error) {
-      return res.json({ msg: error, status: 'error' })
-    }
   } else {
-    return res.json({
-      msg: 'question/answer must be less than 256 characters',
-      status: 'failed',
-    })
+    if (question && answer) {
+      if (question.length < 256 && answer.length < 512) {
+        if (tag.length === 0) {
+          tag = 'default'
+        }
+
+        const flash = Flash.create({
+          user,
+          question: encrypt(question),
+          answer: encrypt(answer),
+          tag,
+          flashColor,
+        })
+        try {
+          await AppDataSource.manager.save(flash)
+          res.send({ msg: 'flash saved', status: 'success' })
+        } catch (error) {
+          res.send({ msg: error, status: 'error' })
+        }
+      } else {
+        res.send({
+          msg: 'question/answer must be less than 256 characters',
+          status: 'failed',
+        })
+      }
+    }else{
+      res.send({
+        status: 'error',
+        msg: 'question/answer must not be empty',
+      })
+    }
   }
 })
 
