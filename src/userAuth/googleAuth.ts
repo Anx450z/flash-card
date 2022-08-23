@@ -13,7 +13,7 @@ passport.use(
     {
       clientID: `${process.env.GOOGLE_CID}`,
       clientSecret: `${process.env.GOOGLE_SECRET}`,
-      callbackURL: 'https://ankur-flash-card-backend.herokuapp.com/auth/google/callback',
+      callbackURL: '/auth/google/callback',
       scope: ['profile', 'email', ''],
       state: true,
     },
@@ -49,17 +49,17 @@ passport.use(
 
 export const googleRouter = express.Router()
 //* google routes
-googleRouter.get('https://ankur-flash-card-backend.herokuapp.com/auth/google', passport.authenticate('google'))
+googleRouter.get('/auth/google', passport.authenticate('google'))
 googleRouter.get(
-  'https://ankur-flash-card-backend.herokuapp.com/auth/google/callback',
+  '/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'https://ankur-flash-card-backend.herokuapp.com/failure',
+    failureRedirect: '/failure',
     session: true,
     failureMessage: true,
     // successRedirect: '/success',
   }),
   function (req, res) {
-    console.log(process.env.FRONT_END || 'https://snazzy-starlight-dbf8b2.netlify.app')
-    res.redirect(process.env.FRONT_END || 'https://snazzy-starlight-dbf8b2.netlify.app')
+    // console.log(process.env.FRONT_END || 'https://snazzy-starlight-dbf8b2.netlify.app')
+    res.redirect('https://snazzy-starlight-dbf8b2.netlify.app')
   }
 )
