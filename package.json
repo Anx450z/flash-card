@@ -11,11 +11,7 @@
     "build": "tsc -p .",
     "dev": "nodemon --exec ts-node src/index.ts",
     "heroku-prebuild": "yarn install",
-    "typeorm": "typeorm-ts-node-commonjs",
-    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
-    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
-    "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
-    "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync"
+    "typeorm": "typeorm-ts-node-commonjs"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.4.0",
