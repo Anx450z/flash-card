@@ -13,7 +13,7 @@ passport.use(
     {
       clientID: `${process.env.GOOGLE_CID}`,
       clientSecret: `${process.env.GOOGLE_SECRET}`,
-      callbackURL: '/auth/google/callback',
+      callbackURL: 'https://ankur-flash-card-backend.herokuapp.com/auth/google/callback',
       scope: ['profile', 'email', ''],
       state: true,
     },
@@ -49,11 +49,11 @@ passport.use(
 
 export const googleRouter = express.Router()
 //* google routes
-googleRouter.get('/auth/google', passport.authenticate('google'))
+googleRouter.get('https://ankur-flash-card-backend.herokuapp.com/auth/google', passport.authenticate('google'))
 googleRouter.get(
-  '/auth/google/callback',
+  'https://ankur-flash-card-backend.herokuapp.com/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/failure',
+    failureRedirect: 'https://ankur-flash-card-backend.herokuapp.com/failure',
     session: true,
     failureMessage: true,
     // successRedirect: '/success',
