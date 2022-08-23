@@ -17,9 +17,9 @@ export const AppDataSource = new DataSource({
   // password:connectionOptions.password,
   // database: connectionOptions.database,
   synchronize: false,
-  logging: true,
+  // logging: true,
   entities: [User, Flash],
-  migrations: ['./src/migration/**/*.{ts,.js}'],
+  migrations: ['./src/migration/**/*{.ts,.js}', './build/dist/migration/**/*.js'],
   extra: {
     ssl: true,
   },

@@ -18,7 +18,7 @@ AppDataSource.initialize()
   .then(async () => {
     console.log('🟢 Connected successfully to Postgresql 🐘')
   })
-  .catch(error => console.log(error))
+  .catch(error => console.log("error caught while connecting to Postgresql : ",error))
 
 const GoogleStrategy = require('passport-google-oauth20')
 
