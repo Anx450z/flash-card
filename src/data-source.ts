@@ -3,16 +3,18 @@ import { DataSource } from 'typeorm'
 import { User } from './entity/User'
 import dotenv from 'dotenv'
 import { Flash } from './entity/Flash'
+import * as PostgressConnectionStringParser from 'pg-connection-string'
 
 dotenv.config()
-
+const databaseUrl: string = process.env.DATABASE_URL
+const connectionOptions =PostgressConnectionStringParser.parse(databaseUrl)
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: `${process.env.HOST}`,
-  port: 5432,
-  username: `${process.env.USER}`,
-  password: `${process.env.PASSWORD}`,
-  database: `${process.env.DATABASE}`,
+  host: connectionOptions.host,
+  port: parseInt(connectionOptions.port),
+  username: connectionOptions.user,
+  password:connectionOptions.password,
+  database: connectionOptions.database,
   synchronize: false,
   logging: true,
   entities: [User, Flash],
