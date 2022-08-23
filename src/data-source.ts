@@ -9,16 +9,17 @@ dotenv.config()
 const databaseUrl: string = process.env.DATABASE_URL
 const connectionOptions =PostgressConnectionStringParser.parse(databaseUrl)
 export const AppDataSource = new DataSource({
+  url: process.env.DATABASE_URL,
   type: 'postgres',
-  host: connectionOptions.host,
-  port: parseInt(connectionOptions.port),
-  username: connectionOptions.user,
-  password:connectionOptions.password,
-  database: connectionOptions.database,
+  // host: connectionOptions.host,
+  // port: parseInt(connectionOptions.port),
+  // username: connectionOptions.user,
+  // password:connectionOptions.password,
+  // database: connectionOptions.database,
   synchronize: false,
   logging: true,
   entities: [User, Flash],
-  migrations: ['./src/migration/**/*.ts'],
+  migrations: ['./src/migration/**/*.{ts,.js}'],
   extra: {
     ssl: true,
   },
