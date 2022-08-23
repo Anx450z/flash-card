@@ -59,6 +59,7 @@ googleRouter.get(
     // successRedirect: '/success',
   }),
   function (req, res) {
-    res.redirect('http://localhost:3000')
+    console.log(process.env.FRONT_END || 'https://snazzy-starlight-dbf8b2.netlify.app')
+    res.redirect(process.env.FRONT_END || 'https://snazzy-starlight-dbf8b2.netlify.app')
   }
 )

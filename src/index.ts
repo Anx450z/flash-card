@@ -11,29 +11,8 @@ import { getFlashesRouter } from './routes/getFlash'
 import { googleRouter } from './userAuth/googleAuth'
 import { addToFavoriteRouter } from './routes/favoriteFlash'
 import { editFlashRouter } from './routes/editFlash'
-// import {faker} from '@faker-js/faker'
-
-// AppDataSource.initialize()
-//   .then(async () => {
-//     console.log('Inserting a new user into the database...')
-//     const user = new User()
-//     user.firstName = faker.name.firstName()
-//     user.lastName = faker.name.lastName()
-//     user.email = faker.internet.email()
-//     user.userName = faker.name.middleName()
-//     await AppDataSource.manager.save(user)
-//     console.log('Saved a new user with id: ' + user.id)
-
-//     console.log('Loading users from the database...')
-//     const users = await AppDataSource.manager.find(User)
-//     console.log('Loaded users: ', users)
-
-//     console.log('Here you can setup and run express / fastify / any other framework.')
-//   })
-//   .catch(error => console.log(error))
 
 dotenv.config()
-
 const app = express()
 
 AppDataSource.initialize()
@@ -48,7 +27,7 @@ const GoogleStrategy = require('passport-google-oauth20')
 app.use(express.json())
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', "https://snazzy-starlight-dbf8b2.netlify.app"],
     credentials: true,
   })
 )
@@ -78,7 +57,6 @@ passport.serializeUser((user: any, done) => {
 passport.deserializeUser((user: any, done) => {
   //* Whatever we return goes to the client and binds to the req.user property
   // const user = await User.findOneBy({ googleId: id })
-
   return done(null, user)
 })
 
@@ -107,6 +85,6 @@ app.use(googleRouter)
 app.use(addToFavoriteRouter)
 app.use(editFlashRouter)
 
-app.listen(4000, () => {
+app.listen(process.env.PORT||4000, () => {
   console.log('Server Started')
 })
