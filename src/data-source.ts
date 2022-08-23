@@ -17,5 +17,8 @@ export const AppDataSource = new DataSource({
   logging: true,
   entities: [User, Flash],
   migrations: ['./src/migration/**/*.ts'],
+  extra: {
+    ssl: true,
+  },
   // subscribers: [],
 })
