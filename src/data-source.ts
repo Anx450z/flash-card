@@ -21,7 +21,9 @@ export const AppDataSource = new DataSource({
   entities: [User, Flash],
   migrations: ['./src/migration/**/*{.ts,.js}', './build/dist/migration/**/*.js'],
   extra: {
-    ssl: true,
+    ssl: {
+      rejectUnauthorized: false,
+    }
   },
   // subscribers: [],
 })
