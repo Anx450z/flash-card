@@ -44,11 +44,11 @@ app.use(
     secret: 'secret',
     resave: true,
     saveUninitialized: false,
-    cookie: {
-      sameSite: 'none',
-      secure: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
-    },
+    // cookie: {
+    //   sameSite: 'none',
+    //   secure: true,
+    //   maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
+    // },
   })
 )
 
@@ -60,9 +60,9 @@ passport.serializeUser((user: any, done) => {
   return done(null, user.id)
 })
 
-passport.deserializeUser((id: number, done :any) => {
+passport.deserializeUser( async (id: number, done :any) => {
   //* Whatever we return goes to the client and binds to the req.user property
-  const user = User.findOneBy({ id })
+  const user = await User.findOneBy({ id })
   console.log("deserializeUser", user)
   return done(null, user)
 })
