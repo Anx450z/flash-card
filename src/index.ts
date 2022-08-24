@@ -18,7 +18,7 @@ AppDataSource.initialize()
   .then(async () => {
     console.log('🟢 Connected successfully to Postgresql 🐘')
   })
-  .catch(error => console.log("error caught while connecting to Postgresql : ",error))
+  .catch(error => console.log('error caught while connecting to Postgresql : ', error))
 
 const GoogleStrategy = require('passport-google-oauth20')
 
@@ -26,7 +26,11 @@ const GoogleStrategy = require('passport-google-oauth20')
 app.use(express.json())
 app.use(
   cors({
-    origin: ['http://localhost:3000', "https://snazzy-starlight-dbf8b2.netlify.app"],
+    origin: [
+      'http://localhost:3000',
+      'https://snazzy-starlight-dbf8b2.netlify.app',
+      'https://production--snazzy-starlight-dbf8b2.netlify.app/',
+    ],
     credentials: true,
   })
 )
@@ -65,7 +69,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/getuser', (req, res) => {
-  console.log("sending user data to frontend")
+  console.log('sending user data to frontend', req.user)
   return res.send(req.user)
 })
 
@@ -85,6 +89,6 @@ app.use(googleRouter)
 app.use(addToFavoriteRouter)
 app.use(editFlashRouter)
 
-app.listen(process.env.PORT||4000, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log('Server Started')
 })
