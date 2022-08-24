@@ -30,7 +30,6 @@ app.use(express.json())
 app.use(
   cors({
     origin: [
-      'http://localhost:3000',
       'https://snazzy-starlight-dbf8b2.netlify.app',
       'https://production--snazzy-starlight-dbf8b2.netlify.app/',
     ],
@@ -68,8 +67,14 @@ passport.deserializeUser( async (id: number, done :any) => {
   return done(null, user)
 })
 
-app.use(googleRouter)
 // Routes
+app.use(googleRouter)
+app.use(createFlashRouter)
+app.use(deleteFlashRouter)
+app.use(getFlashesRouter)
+app.use(addToFavoriteRouter)
+app.use(editFlashRouter)
+
 app.get('/', (req, res) => {
   res.send('Hello World!!')
 })
@@ -87,12 +92,6 @@ app.get('/auth/logout', function (req, res, next) {
     res.send('success')
   })
 })
-
-app.use(createFlashRouter)
-app.use(deleteFlashRouter)
-app.use(getFlashesRouter)
-app.use(addToFavoriteRouter)
-app.use(editFlashRouter)
 
 app.listen(process.env.PORT || 4000, () => {
   console.log('Server Started')
