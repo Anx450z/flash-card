@@ -54,12 +54,14 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 passport.serializeUser((user: any, done) => {
+  console.log("serializeUser", user)
   return done(null, user)
 })
 
 passport.deserializeUser((user: any, done) => {
   //* Whatever we return goes to the client and binds to the req.user property
   // const user = await User.findOneBy({ googleId: id })
+  console.log("deserializeUser", user)
   return done(null, user)
 })
 
@@ -70,7 +72,7 @@ app.get('/', (req, res) => {
 
 app.get('/getuser', (req, res) => {
   console.log('sending user data to frontend', req.user)
-  return res.send(req.user)
+  res.send(req.user)
 })
 
 app.get('/auth/logout', function (req, res, next) {
