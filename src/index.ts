@@ -60,9 +60,9 @@ passport.serializeUser((user: any, done) => {
   return done(null, user.id)
 })
 
-passport.deserializeUser( async (id: number, done :any) => {
+passport.deserializeUser((id: number, done :any) => {
   //* Whatever we return goes to the client and binds to the req.user property
-  const user = await User.findOneBy({ id })
+  const user = User.findOneBy({ id })
   console.log("deserializeUser", user)
   return done(null, user)
 })
