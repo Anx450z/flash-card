@@ -65,7 +65,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/getuser', (req, res) => {
-  res.send(req.user)
+  console.log("sending user data to frontend")
+  return res.send(req.user)
 })
 
 app.get('/auth/logout', function (req, res, next) {
