@@ -7,7 +7,7 @@ import { join } from 'path'
 // import * as PostgressConnectionStringParser from 'pg-connection-string'
 
 dotenv.config()
-const databaseUrl: string = process.env.DATABASE_URL
+// const databaseUrl: string = process.env.DATABASE_URL
 // const connectionOptions =PostgressConnectionStringParser.parse(databaseUrl)
 export const AppDataSource = new DataSource({
   url: process.env.DATABASE_URL,

@@ -20,9 +20,9 @@ passport.use(
     async function (_: any, __: any, userinfo: any, cb: any) {
       // using _ for parameter which are not required
       // Insert user into DB
-      // console.log(userinfo)
+      console.log(" userinfo: ",userinfo)
       const user = await User.findOneBy({ googleId: userinfo.id })
-      // console.log('user ===', user)
+      console.log('user ===', user)
       try {
         if (!user) {
           // console.log("Creating new user")
