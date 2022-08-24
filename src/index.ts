@@ -10,6 +10,7 @@ import { getFlashesRouter } from './routes/getFlash'
 import { googleRouter } from './userAuth/googleAuth'
 import { addToFavoriteRouter } from './routes/favoriteFlash'
 import { editFlashRouter } from './routes/editFlash'
+import cookieParser from 'cookie-parser'
 
 dotenv.config()
 const app = express()
@@ -23,6 +24,7 @@ AppDataSource.initialize()
 const GoogleStrategy = require('passport-google-oauth20')
 
 //Middleware
+app.use(cookieParser('secret'))
 app.use(express.json())
 app.use(
   cors({
