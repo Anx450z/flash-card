@@ -5,7 +5,7 @@
     "baseUrl": ".",
     "outDir": "build/dist",
     "module": "commonjs",
-    "target": "es5",
+    "target": "ES6",
     "lib": ["es6", "dom"],
     "sourceMap": true,
     "allowJs": true,
@@ -15,5 +15,5 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
-  },
+  }
 }
