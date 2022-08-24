@@ -5,7 +5,6 @@
   "repository": "git@github.com:Anx450z/flash-card.git",
   "author": "anx450z <anx450z@gmail.com>",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "start": "node build/dist/index.js",
