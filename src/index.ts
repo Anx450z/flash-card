@@ -11,6 +11,7 @@ import { googleRouter } from './userAuth/googleAuth'
 import { addToFavoriteRouter } from './routes/favoriteFlash'
 import { editFlashRouter } from './routes/editFlash'
 import cookieParser from 'cookie-parser'
+import { User } from './entity/User'
 
 dotenv.config()
 const app = express()
@@ -56,17 +57,18 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 passport.serializeUser((user: any, done) => {
-  console.log("serializeUser", user)
-  return done(null, user)
+  console.log("serializeUser", user.id)
+  return done(null, user.id)
 })
 
-passport.deserializeUser((user: any, done) => {
+passport.deserializeUser( async (id: number, done :any) => {
   //* Whatever we return goes to the client and binds to the req.user property
-  // const user = await User.findOneBy({ googleId: id })
+  const user = await User.findOneBy({ id })
   console.log("deserializeUser", user)
   return done(null, user)
 })
 
+app.use(googleRouter)
 // Routes
 app.get('/', (req, res) => {
   res.send('Hello World!!')
@@ -89,7 +91,6 @@ app.get('/auth/logout', function (req, res, next) {
 app.use(createFlashRouter)
 app.use(deleteFlashRouter)
 app.use(getFlashesRouter)
-app.use(googleRouter)
 app.use(addToFavoriteRouter)
 app.use(editFlashRouter)
 
