@@ -14,6 +14,8 @@ import cookieParser from 'cookie-parser'
 import { User } from './entity/User'
 
 dotenv.config()
+const environment = process.env.NODE_ENV
+console.log("environment: " + environment)
 const app = express()
 
 AppDataSource.initialize()
@@ -30,6 +32,7 @@ app.use(express.json())
 app.use(
   cors({
     origin: [
+      'http://localhost:3000',
       'https://snazzy-starlight-dbf8b2.netlify.app',
       'https://production--snazzy-starlight-dbf8b2.netlify.app/',
     ],
@@ -37,18 +40,18 @@ app.use(
   })
 )
 
-app.set('trust proxy', 1)
+if (environment !== 'development') app.set('trust proxy', 1)
 
 app.use(
   session({
     secret: 'secret',
     resave: true,
     saveUninitialized: false,
-    // cookie: {
-    //   sameSite: 'none',
-    //   secure: true,
-    //   maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
-    // },
+    cookie: {
+      sameSite: 'none',
+      secure: environment === 'development' ? false : true,
+      maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
+    },
   })
 )
 
@@ -56,14 +59,14 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 passport.serializeUser((user: any, done) => {
-  console.log("serializeUser", user.id)
+  console.log('serializeUser', user.id)
   return done(null, user.id)
 })
 
-passport.deserializeUser( async (id: number, done :any) => {
+passport.deserializeUser(async (id: number, done: any) => {
   //* Whatever we return goes to the client and binds to the req.user property
   const user = await User.findOneBy({ id })
-  console.log("deserializeUser", user)
+  console.log('deserializeUser', user)
   return done(null, user)
 })
 
