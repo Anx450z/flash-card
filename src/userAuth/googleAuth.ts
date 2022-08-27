@@ -4,6 +4,7 @@ import express from 'express'
 import passport from 'passport'
 import dotenv from 'dotenv'
 
+const environment = process.env.NODE_ENV
 dotenv.config()
 
 const GoogleStrategy = require('passport-google-oauth20')
@@ -59,7 +60,8 @@ googleRouter.get(
     // successRedirect: '/success',
   }),
   function (req, res) {
-    // console.log(process.env.FRONT_END || 'https://snazzy-starlight-dbf8b2.netlify.app')
-    res.redirect('https://snazzy-starlight-dbf8b2.netlify.app')
+    environment !== 'development'
+      ? res.redirect('https://snazzy-starlight-dbf8b2.netlify.app')
+      : res.redirect('http:localhost/3000')
   }
 )
