@@ -22,7 +22,7 @@ export const passportConfig = (passport: any) =>{
       async function (_: any, __: any, userinfo: any, cb: any) {
         // using _ for parameter which are not required
         // Insert user into DB
-        console.log(" userinfo: ",userinfo)
+        // console.log(" userinfo: ",userinfo)
         const user = await User.findOneBy({ googleId: userinfo.id })
         // console.log('user ===', user)
         try {
@@ -50,7 +50,7 @@ export const passportConfig = (passport: any) =>{
   )
   
   passport.serializeUser((user: any, done: any) => {
-    console.log('serializeUser', user.id)
+    // console.log('serializeUser', user.id)
     return done(null, user.id)
   })
   

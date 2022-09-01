@@ -24,9 +24,9 @@ AppDataSource.initialize()
   })
   .catch(error => console.log('error caught while connecting to Postgresql : ', error))
 
-const GoogleStrategy = require('passport-google-oauth20')
+// const GoogleStrategy = require('passport-google-oauth20')
 
-//Middleware
+//*Middleware
 app.use(cookieParser('secret'))
 app.use(express.json())
 app.use(
@@ -72,7 +72,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!!')
 })
 
-app.get('/getuser', (req, res) => {
+app.get('/api/getuser', (req, res) => {
   console.log('sending user data to frontend', req.user)
   res.send(req.user)
 })
