@@ -9,7 +9,7 @@ const GoogleStrategy = require('passport-google-oauth20')
 const googleRouter = express.Router()
 
 export const passportConfig = (passport: any) =>{
-  console.log("google Router")
+  // console.log("google Router")
   passport.use(
     new GoogleStrategy(
       {
@@ -57,7 +57,7 @@ export const passportConfig = (passport: any) =>{
   passport.deserializeUser(async (id: number, done: any) => {
     //* Whatever we return goes to the client and binds to the req.user property
     const user = await User.findOneBy({ id })
-    console.log('deserializeUser', user)
+    // console.log('deserializeUser', user)
     return done(null, user)
   })
   
