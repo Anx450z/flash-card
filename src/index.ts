@@ -42,16 +42,23 @@ app.use(
 
 if (environment !== 'development') app.set('trust proxy', 1)
 
+const productionCookie = { 
+  sameSite: 'none',
+  secure: true,
+  maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
+}
+
+const developmentCookie = {
+  secure: false,
+  maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
+}
+
 app.use(
   session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true,
-    cookie: {
-      // sameSite: 'none',
-      secure: environment === 'development' ? false : true,
-      maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
-    },
+    cookie: (environment === 'development' ? developmentCookie : productionCookie)
   })
 )
 
