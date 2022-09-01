@@ -7,17 +7,17 @@ import passport from 'passport'
 import { createFlashRouter } from './routes/createFlash'
 import { deleteFlashRouter } from './routes/deleteFlash'
 import { getFlashesRouter } from './routes/getFlash'
-import { googleRouter } from './userAuth/googleAuth'
+import { googleLoginRouter, passportConfig } from './userAuth/googleAuth'
 import { addToFavoriteRouter } from './routes/favoriteFlash'
 import { editFlashRouter } from './routes/editFlash'
 import cookieParser from 'cookie-parser'
-import { User } from './entity/User'
 
 dotenv.config()
 const environment = process.env.NODE_ENV
 console.log("environment: " + environment)
 const app = express()
 
+// * DB connection
 AppDataSource.initialize()
   .then(async () => {
     console.log('🟢 Connected successfully to Postgresql 🐘')
@@ -46,32 +46,22 @@ app.use(
   session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
-      sameSite: 'none',
+      // sameSite: 'none',
       secure: environment === 'development' ? false : true,
       maxAge: 1000 * 60 * 60 * 24 * 7, //* One week
     },
   })
 )
 
+// * Passport configuration
 app.use(passport.initialize())
 app.use(passport.session())
+passportConfig(passport)
 
-passport.serializeUser((user: any, done) => {
-  console.log('serializeUser', user.id)
-  return done(null, user.id)
-})
-
-passport.deserializeUser(async (id: number, done: any) => {
-  //* Whatever we return goes to the client and binds to the req.user property
-  const user = await User.findOneBy({ id })
-  console.log('deserializeUser', user)
-  return done(null, user)
-})
-
-// Routes
-app.use(googleRouter)
+//* Routes
+app.use(googleLoginRouter)
 app.use(createFlashRouter)
 app.use(deleteFlashRouter)
 app.use(getFlashesRouter)
